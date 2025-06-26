@@ -1,0 +1,11 @@
+- name: Run docker compose file
+  shell: docker compose up -d
+
+- name: Check containers state
+  shell: docker ps
+  register: docker_output
+
+- name: Show running containers
+  debug:
+    var: docker_output.stdout
+

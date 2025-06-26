@@ -1,0 +1,7 @@
+- hosts: server
+  remote_user: razmik
+  become: yes
+
+  roles:
+    - docker_install
+    - docker_compose
