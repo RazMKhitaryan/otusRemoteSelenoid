@@ -31,5 +31,6 @@
 ## 🧾 command for run
 
 ```
+cd playbook
 ansible-playbook -i hosts tasks.yaml
 ```
