@@ -1,5 +1,18 @@
+- name: Create browsers.json file
+  template:
+    src: browsers.json.j2
+    dest: /home/{{ username }}/grid-router/browsers.json
+  vars:
+    chrome_version: "{{ browsers_versions.chrome }}"
+    firefox_version: "{{ browsers_versions.firefox }}"
+
+- name: Copy docker-compose.yml template to remote server
+  template:
+    src: docker-compose.yml.j2
+    dest: /home/{{ username }}/docker-compose.yml
+
 - name: Run docker compose file
-  shell: docker compose up -d
+  shell: docker compose -f /home/{{ username }}/docker-compose.yml up -d
 
 - name: Check containers state
   shell: docker ps

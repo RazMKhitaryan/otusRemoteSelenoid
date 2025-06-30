@@ -1,7 +1,14 @@
 - hosts: server
-  remote_user: razmik
+  remote_user: "{{ username }}"
   become: yes
+
+  vars:
+    username: razmik
+    browsers_versions:
+      chrome: "128.0"
+      firefox: "122.0"
 
   roles:
     - docker_install
     - docker_compose
+
