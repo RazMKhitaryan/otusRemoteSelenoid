@@ -1,5 +1,18 @@
 version: "3.9"
 services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_placeholder
+      MYSQL_DATABASE: project_database
+      MYSQL_USER: project_user
+      MYSQL_PASSWORD: user_password_placeholder
+    volumes:
+      - db_data:/var/lib/mysql
+
   wiremock:
     image: wiremock/wiremock:3.13.1
     hostname: wiremock
@@ -78,6 +91,9 @@ services:
       - /home/{{ username }}/nginx/selenoid.conf:/etc/nginx/conf.d/default.conf
     networks:
       - selenoid_net1
+volumes:
+  db_data:
+    driver: local
 
 networks:
   selenoid_net1:
