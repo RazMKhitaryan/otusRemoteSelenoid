@@ -11,6 +11,9 @@
     src: docker-compose.yml.j2
     dest: /home/{{ username }}/docker-compose.yml
 
+- name: Reset environment for docker compose (safe xargs)
+  shell: docker ps -aq | xargs --no-run-if-empty docker rm -f
+
 - name: Run docker compose file
   shell: docker compose -f /home/{{ username }}/docker-compose.yml up -d
 
