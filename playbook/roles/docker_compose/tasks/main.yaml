@@ -6,6 +6,11 @@
     chrome_version: "{{ browsers_versions.chrome }}"
     firefox_version: "{{ browsers_versions.firefox }}"
 
+- name: Copy nginx selenoid.conf file to remote server
+  template:
+    src: selenoid.conf.j2
+    dest: /home/{{ username }}/nginx/selenoid.conf
+
 - name: Copy docker-compose.yml template to remote server
   template:
     src: docker-compose.yml.j2
