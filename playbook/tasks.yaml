@@ -9,6 +9,8 @@
       firefox: "122.0"
 
   roles:
+    - wiremock_files
+    - configuration
     - docker_install
     - docker_compose
 

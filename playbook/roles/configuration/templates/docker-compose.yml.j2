@@ -33,7 +33,7 @@ services:
     image: wiremock/wiremock:3.13.1
     hostname: wiremock
     volumes:
-      - ./wiremock/stubs:/home/wiremock/mappings
+      - /home/razmik/wiremock/stubs:/home/wiremock/mappings
     networks:
       - selenoid_net1
 
