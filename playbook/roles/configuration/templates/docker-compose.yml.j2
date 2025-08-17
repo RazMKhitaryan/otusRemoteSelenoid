@@ -77,6 +77,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./grid-router/browsers.json:/etc/selenoid/browsers.json:ro
+      - ./target/videos:/opt/selenoid/video
     command: -container-network selenoid_net1 -limit 10
 
   selenoid2:
@@ -88,6 +89,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./grid-router/browsers.json:/etc/selenoid/browsers.json:ro
+      - ./target/videos:/opt/selenoid/video
     command: -container-network selenoid_net2 -limit 10
 
   ggr:
