@@ -5,7 +5,8 @@
       "{{ chrome_version }}": {
         "image": "selenoid/chrome:{{ chrome_version }}",
         "port": "4444",
-        "path": "/"
+        "path": "/",
+        "video": true
       }
     }
   },
@@ -15,9 +16,9 @@
       "{{ firefox_version }}": {
         "image": "selenoid/firefox:{{ firefox_version }}",
         "port": "4444",
-        "path": "/wd/hub"
+        "path": "/wd/hub",
+        "video": true
       }
     }
   }
 }
-
