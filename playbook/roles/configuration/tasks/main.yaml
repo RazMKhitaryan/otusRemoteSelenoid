@@ -1,3 +1,8 @@
+- name: Copy jenkins job Dockerfile.ui_tests file
+  template:
+    src: Dockerfile.ui_tests.j2
+    dest: /home/{{ username }}/jenkins/slaves/Dockerfile.ui_tests.j2
+
 - name: Copy jenkins job dockerfile maven file
   template:
     src: Dockerfile.maven.j2
