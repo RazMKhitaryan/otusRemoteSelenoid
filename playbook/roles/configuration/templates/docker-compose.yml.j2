@@ -75,11 +75,8 @@ services:
     networks:
       - selenoid_net1
     volumes:
-      - /home/razmik/selenoid/video:/opt/selenoid/video
       - /var/run/docker.sock:/var/run/docker.sock
       - ./grid-router/browsers.json:/etc/selenoid/browsers.json:ro
-    environment:
-      - OVERRIDE_VIDEO_OUTPUT_DIR=/home/razmik/selenoid/video/
     command: -container-network selenoid_net1 -limit 10
 
   selenoid2:
@@ -89,11 +86,8 @@ services:
     networks:
       - selenoid_net2
     volumes:
-      - /home/razmik/selenoid/video:/opt/selenoid/video
       - /var/run/docker.sock:/var/run/docker.sock
       - ./grid-router/browsers.json:/etc/selenoid/browsers.json:ro
-    environment:
-      - OVERRIDE_VIDEO_OUTPUT_DIR=/home/razmik/selenoid/video/
     command: -container-network selenoid_net2 -limit 10
 
   ggr:
