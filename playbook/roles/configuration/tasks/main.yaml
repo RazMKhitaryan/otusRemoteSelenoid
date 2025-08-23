@@ -1,36 +1,36 @@
 - name: Copy jenkins job Dockerfile.ui_tests file
   template:
-    src: Dockerfile.ui_tests.j2
-    dest: /home/{{ username }}/jenkins/slaves/Dockerfile.ui_tests.j2
+    src: jenkins/Dockerfile.ui_tests.j2
+    dest: /home/{{ username }}/jenkins/slaves/Dockerfile.ui_tests
 
 - name: Copy jenkins job dockerfile maven file
   template:
-    src: Dockerfile.maven.j2
+    src: jenkins/Dockerfile.maven.j2
     dest: /home/{{ username }}/jenkins/slaves/Dockerfile.maven
 
 - name: Copy jenkins job upload_jobs file
   template:
-    src: upload_jobs.yaml.j2
+    src: jenkins/upload_jobs.yaml.j2
     dest: /home/{{ username }}/jenkins/jobs/upload_jobs.yaml
 
 - name: Copy jenkins job global file
   template:
-    src: project.yaml.j2
+    src: jenkins/project.yaml.j2
     dest: /home/{{ username }}/jenkins/jobs/project.yaml
 
 - name: Copy jenkins job global file
   template:
-    src: global.yaml.j2
+    src: jenkins/global.yaml.j2
     dest: /home/{{ username }}/jenkins/jobs/global.yaml
 
 - name: Copy jenkins job view file
   template:
-    src: view.yaml.j2
+    src: jenkins/view.yaml.j2
     dest: /home/{{ username }}/jenkins/jobs/view.yaml
 
 - name: Copy jenkins job ini file
   template:
-    src: uploader.ini.j2
+    src: jenkins/uploader.ini.j2
     dest: /home/{{ username }}/jenkins/uploader.ini
 
 - name: Copy grid-router quota xml file
