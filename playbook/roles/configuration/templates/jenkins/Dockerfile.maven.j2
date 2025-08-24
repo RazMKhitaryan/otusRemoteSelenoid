@@ -1,41 +1,16 @@
-# Base Jenkins agent image
 FROM jenkins/agent:jdk21
-
-# Allow passing Docker group GID from build args (match host GID)
-ARG DOCKER_GID=999
 
 USER root
 
-# Install required tools: Maven, Python3, venv, pip, Groovy, curl, unzip, sudo
+# Install Maven, Python3, venv, Groovy, and required tools
 RUN apt-get update -y && \
-    apt-get install -y \
-        maven \
-        python3 \
-        python3-venv \
-        python3-pip \
-        unzip \
-        curl \
-        groovy \
-        ca-certificates \
-        gnupg \
-        lsb-release \
-        software-properties-common \
-        sudo && \
+    apt-get install -y maven python3 python3-venv python3-pip unzip curl groovy ca-certificates gnupg lsb-release && \
     python3 -m venv /opt/venv && \
     /opt/venv/bin/pip install --upgrade pip && \
-    /opt/venv/bin/pip install jenkins-job-builder && \
-    rm -rf /var/lib/apt/lists/*
+    /opt/venv/bin/pip install jenkins-job-builder
 
 # Add virtual environment to PATH
 ENV PATH="/opt/venv/bin:$PATH"
-
-# Install Docker CLI (not daemon)
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
-        | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-    apt-get update -y && \
-    apt-get install -y docker-ce-cli docker-buildx-plugin docker-compose-plugin && \
-    rm -rf /var/lib/apt/lists/*
 
 # Install Allure Commandline
 ENV ALLURE_VERSION=2.34.1
@@ -44,30 +19,8 @@ RUN curl -L -o /tmp/allure.zip https://github.com/allure-framework/allure2/relea
     rm /tmp/allure.zip && \
     ln -s /opt/allure-${ALLURE_VERSION}/bin/allure /usr/bin/allure
 
-# Ensure Docker group exists with proper GID and add Jenkins user
-RUN existing_group=$(getent group docker | cut -d: -f3 || echo "") && \
-    if [ -z "$existing_group" ]; then \
-        # No docker group exists, try to create with desired GID
-        if ! getent group $DOCKER_GID; then \
-            groupadd -g $DOCKER_GID docker; \
-        else \
-            # GID exists, create docker with any available GID
-            groupadd docker; \
-        fi; \
-    fi && \
-    usermod -aG docker jenkins
+# Install Docker CLI
+RUN curl -fsSL https://get.docker.com | sh
 
-# Add Jenkins user to sudoers (optional)
-RUN echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+# Default user will stay root (for Jenkins jobs needing docker build/run)
 
-# Ensure Docker socket mount point exists
-VOLUME /var/run/docker.sock
-
-# Set working directory
-WORKDIR /home/jenkins/agent
-
-# Switch back to Jenkins user
-USER jenkins
-
-# Set default shell
-SHELL ["/bin/bash", "-c"]
